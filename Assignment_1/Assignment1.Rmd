@@ -3,3 +3,10 @@ title: "Assignment1"
 output: html_document
 ---
 
+## Import Data
+```{r}
+
+library(readr)
+Cereals <- read_csv("Cereals.csv")
+
+```
