@@ -66,3 +66,38 @@ table(Cereals$is_cold)
 print(Cereals)
 
 ```
+
+## Visualizing Data
+### Qualitative Variable
+```{r}
+
+ggplot(Cereals, aes(x = mfr)) +
+  geom_bar(fill = "lightblue", color = "black") +
+  labs(
+    title = "Cereal Manufacturers",
+    x = "Manufacturer",
+    y = "Count"
+  ) +
+  theme_minimal()
+
+```
+<br>
+*A = American Home Food Products; G = General Mills; K = Kelloggs; N = Nabisco; P = Post; Q = Quaker Oats; R = Ralston Purina*
+
+### Quantitative Variables
+```{r}
+
+ggplot(Cereals, aes(x = sugars, y = rating)) +
+  geom_point(color = "blue", alpha = 0.6) +
+  geom_smooth(method = "lm", color = "red") +
+  labs(
+    title = "Sugars vs Rating",
+    x = "Sugars",
+    y = "Rating"
+  ) +
+  theme_minimal()
+
+```
+<br>
+*Sugars = grams of sugars; Rating = percentage rating of the cereals*
+
