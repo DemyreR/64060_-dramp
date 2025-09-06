@@ -12,7 +12,6 @@ library(readr)
 
 ```
 
-
 ## Import Data
 ```{r}
 
@@ -49,5 +48,21 @@ table(Cereals$type)
 ```{r}
 
 table(Cereals$shelf)
+
+```
+
+## Transforming a Variable
+#### Turning type into a binary:
+```{r}
+
+# Before Transform
+print(Cereals)
+Cereals <- Cereals %>%
+  mutate(is_cold = type == "C") %>%
+  select(name, mfr, is_cold, everything(), -type)
+
+table(Cereals$is_cold)
+# After Transform
+print(Cereals)
 
 ```

@@ -440,6 +440,56 @@ N = Nabisco; P = Post; Q = Quaker Oats; R = Ralston Purina</em></p>
 </div>
 </div>
 </div>
+<div id="transforming-a-variable" class="section level2">
+<h2>Transforming a Variable</h2>
+<div id="turning-type-into-a-binary" class="section level4">
+<h4>Turning type into a binary:</h4>
+<pre class="r"><code># Before Transform
+print(Cereals)</code></pre>
+<pre><code>## # A tibble: 77 × 16
+##    name      mfr   type  calories protein   fat sodium fiber carbo sugars potass
+##    &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+##  1 100%_Bran N     C           70       4     1    130  10     5        6    280
+##  2 100%_Nat… Q     C          120       3     5     15   2     8        8    135
+##  3 All-Bran  K     C           70       4     1    260   9     7        5    320
+##  4 All-Bran… K     C           50       4     0    140  14     8        0    330
+##  5 Almond_D… R     C          110       2     2    200   1    14        8     NA
+##  6 Apple_Ci… G     C          110       2     2    180   1.5  10.5     10     70
+##  7 Apple_Ja… K     C          110       2     0    125   1    11       14     30
+##  8 Basic_4   G     C          130       3     2    210   2    18        8    100
+##  9 Bran_Chex R     C           90       2     1    200   4    15        6    125
+## 10 Bran_Fla… P     C           90       3     0    210   5    13        5    190
+## # ℹ 67 more rows
+## # ℹ 5 more variables: vitamins &lt;dbl&gt;, shelf &lt;dbl&gt;, weight &lt;dbl&gt;, cups &lt;dbl&gt;,
+## #   rating &lt;dbl&gt;</code></pre>
+<pre class="r"><code>Cereals &lt;- Cereals %&gt;%
+  mutate(is_cold = type == &quot;C&quot;) %&gt;%
+  select(name, mfr, is_cold, everything(), -type)
+
+table(Cereals$is_cold)</code></pre>
+<pre><code>## 
+## FALSE  TRUE 
+##     3    74</code></pre>
+<pre class="r"><code># After Transform
+print(Cereals)</code></pre>
+<pre><code>## # A tibble: 77 × 16
+##    name    mfr   is_cold calories protein   fat sodium fiber carbo sugars potass
+##    &lt;chr&gt;   &lt;chr&gt; &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+##  1 100%_B… N     TRUE          70       4     1    130  10     5        6    280
+##  2 100%_N… Q     TRUE         120       3     5     15   2     8        8    135
+##  3 All-Br… K     TRUE          70       4     1    260   9     7        5    320
+##  4 All-Br… K     TRUE          50       4     0    140  14     8        0    330
+##  5 Almond… R     TRUE         110       2     2    200   1    14        8     NA
+##  6 Apple_… G     TRUE         110       2     2    180   1.5  10.5     10     70
+##  7 Apple_… K     TRUE         110       2     0    125   1    11       14     30
+##  8 Basic_4 G     TRUE         130       3     2    210   2    18        8    100
+##  9 Bran_C… R     TRUE          90       2     1    200   4    15        6    125
+## 10 Bran_F… P     TRUE          90       3     0    210   5    13        5    190
+## # ℹ 67 more rows
+## # ℹ 5 more variables: vitamins &lt;dbl&gt;, shelf &lt;dbl&gt;, weight &lt;dbl&gt;, cups &lt;dbl&gt;,
+## #   rating &lt;dbl&gt;</code></pre>
+</div>
+</div>
 
 
 
