@@ -11,7 +11,7 @@
 
 
 
-<title>Assignment1</title>
+<title>Assignment 1</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -348,13 +348,13 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Assignment1</h1>
+<h1 class="title toc-ignore">Assignment 1</h1>
 
 </div>
 
 
 <div id="load-libraries" class="section level2">
-<h2>Load Libraries</h2>
+<h2><strong>Load Libraries</strong></h2>
 <pre class="r"><code>library(dplyr)</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;dplyr&#39;</code></pre>
@@ -366,9 +366,10 @@ display: none;
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>library(ggplot2)
 library(readr)</code></pre>
+<p><br></p>
 </div>
 <div id="import-data" class="section level2">
-<h2>Import Data</h2>
+<h2><strong>Import Data</strong></h2>
 <pre class="r"><code>Cereals &lt;- read_csv(&quot;Cereals.csv&quot;)</code></pre>
 <pre><code>## Rows: 77 Columns: 16
 ## ── Column specification ────────────────────────────────────────────────────────
@@ -378,9 +379,11 @@ library(readr)</code></pre>
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p><em>Data sourced from Canvas (also found at <a href="https://sites.calvin.edu/scofield/data/cereals.html" class="uri">https://sites.calvin.edu/scofield/data/cereals.html</a>).</em></p>
+<p><br></p>
 </div>
 <div id="descriptive-statistics" class="section level2">
-<h2>Descriptive Statistics</h2>
+<h2><strong>Descriptive Statistics</strong></h2>
 <div id="quantitative-variables" class="section level3">
 <h3>Quantitative Variables</h3>
 <pre class="r"><code>Cereals %&gt;%
@@ -437,11 +440,12 @@ N = Nabisco; P = Post; Q = Quaker Oats; R = Ralston Purina</em></p>
 <pre><code>## 
 ##  1  2  3 
 ## 20 21 36</code></pre>
+<p><br></p>
 </div>
 </div>
 </div>
-<div id="transforming-a-variable" class="section level2">
-<h2>Transforming a Variable</h2>
+<div id="transform-a-variable" class="section level2">
+<h2><strong>Transform a Variable</strong></h2>
 <div id="turning-type-into-a-binary" class="section level4">
 <h4>Turning type into a binary:</h4>
 <pre class="r"><code># Before Transform
@@ -488,10 +492,11 @@ print(Cereals)</code></pre>
 ## # ℹ 67 more rows
 ## # ℹ 5 more variables: vitamins &lt;dbl&gt;, shelf &lt;dbl&gt;, weight &lt;dbl&gt;, cups &lt;dbl&gt;,
 ## #   rating &lt;dbl&gt;</code></pre>
+<p><br></p>
 </div>
 </div>
-<div id="visualizing-data" class="section level2">
-<h2>Visualizing Data</h2>
+<div id="visualize-data" class="section level2">
+<h2><strong>Visualize Data</strong></h2>
 <div id="qualitative-variable" class="section level3">
 <h3>Qualitative Variable</h3>
 <pre class="r"><code>ggplot(Cereals, aes(x = mfr)) +

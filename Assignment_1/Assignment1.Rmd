@@ -1,9 +1,9 @@
 ---
-title: "Assignment1"
+title: "Assignment 1"
 output: html_document
 ---
 
-## Load Libraries
+## **Load Libraries**
 ```{r}
 
 library(dplyr)
@@ -11,14 +11,19 @@ library(ggplot2)
 library(readr)
 
 ```
+<br>
 
-## Import Data
+## **Import Data**
 ```{r}
 
 Cereals <- read_csv("Cereals.csv")
 
 ```
-## Descriptive Statistics
+*Data sourced from Canvas (also found at https://sites.calvin.edu/scofield/data/cereals.html).*
+
+<br>
+
+## **Descriptive Statistics**
 
 ### Quantitative Variables
 ```{r}
@@ -50,8 +55,9 @@ table(Cereals$type)
 table(Cereals$shelf)
 
 ```
+<br>
 
-## Transforming a Variable
+## **Transform a Variable**
 #### Turning type into a binary:
 ```{r}
 
@@ -66,8 +72,9 @@ table(Cereals$is_cold)
 print(Cereals)
 
 ```
+<br>
 
-## Visualizing Data
+## **Visualize Data**
 ### Qualitative Variable
 ```{r}
 
