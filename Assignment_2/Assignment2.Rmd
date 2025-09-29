@@ -1,0 +1,14 @@
+---
+title: "Assignment2"
+output: html_document
+---
+
+## **Load Libraries**
+```{r}
+
+library(class)
+library(caret)
+library(gmodels)
+
+```
+<br>
