@@ -24,3 +24,24 @@ UniversalBank <- read_csv("UniversalBank.csv")
 
 <br>
 
+## **Drop Data**
+```{r}
+
+UniversalBank <- UniversalBank[,-5]
+UniversalBank <- UniversalBank[,-1]
+
+```
+<br>
+
+## **Dummy Variables**
+```{r}
+
+UniversalBank$Education <- as.factor(UniversalBank$Education)
+DummyVariables <- model.matrix(~ Education - 1, data = UniversalBank)
+UniversalBank[,colnames(DummyVariables)] <- DummyVariables
+UniversalBank <- UniversalBank[,-6]
+
+```
+<br>
+
+
