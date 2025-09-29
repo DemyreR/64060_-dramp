@@ -9,6 +9,18 @@ output: html_document
 library(class)
 library(caret)
 library(gmodels)
+library(readr)
 
 ```
 <br>
+
+## **Import Data**
+```{r}
+
+UniversalBank <- read_csv("UniversalBank.csv")
+
+```
+*Data sourced from Canvas.*
+
+<br>
+

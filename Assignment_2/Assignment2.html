@@ -359,7 +359,21 @@ display: none;
 library(caret)</code></pre>
 <pre><code>## Loading required package: ggplot2</code></pre>
 <pre><code>## Loading required package: lattice</code></pre>
-<pre class="r"><code>library(gmodels)</code></pre>
+<pre class="r"><code>library(gmodels)
+library(readr)</code></pre>
+<p><br></p>
+</div>
+<div id="import-data" class="section level2">
+<h2><strong>Import Data</strong></h2>
+<pre class="r"><code>UniversalBank &lt;- read_csv(&quot;UniversalBank.csv&quot;)</code></pre>
+<pre><code>## Rows: 5000 Columns: 14
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## dbl (14): ID, Age, Experience, Income, ZIP Code, Family, CCAvg, Education, M...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p><em>Data sourced from Canvas.</em></p>
 <p><br></p>
 </div>
 
