@@ -526,6 +526,154 @@ CrossTable(x=Valid_labels,y=Predicted_Valid_labels,prop.chisq = F)</code></pre>
 ## </code></pre>
 <p><br></p>
 </div>
+<div id="new-customer-with-best-k-value" class="section level2">
+<h2><strong>New Customer With Best K Value</strong></h2>
+<pre class="r"><code>Predicted_New_Customer_K5 &lt;- knn(Train_Predictors,
+                             New_Customer_norm,
+                             cl=Train_labels,
+                             k=5)
+print(Predicted_New_Customer_K5)</code></pre>
+<pre><code>## [1] 0
+## Levels: 0 1</code></pre>
+<p><strong>The new customer is still classified as a failure.</strong>
+<br></p>
+</div>
+<div id="repartition-data" class="section level2">
+<h2><strong>Repartition Data</strong></h2>
+<pre class="r"><code>Index_Train &lt;- createDataPartition(UniversalBank_normalized$`Personal Loan`, p=0.5, list = F)
+Train &lt;- UniversalBank_normalized[Index_Train,]
+Temp &lt;- UniversalBank_normalized[-Index_Train,]
+
+Index_Valid &lt;- createDataPartition(Temp$`Personal Loan`, p=0.6, list = F)
+Valid &lt;- Temp[Index_Valid,]
+Test &lt;- Temp[-Index_Valid,]
+
+Train_Predictors &lt;- Train[, colnames(Train) != &quot;Personal Loan&quot;]
+Train_labels &lt;- Train$`Personal Loan`
+Valid_Predictors &lt;- Valid[, colnames(Valid) != &quot;Personal Loan&quot;]
+Valid_labels &lt;- Valid$`Personal Loan`
+Test_Predictors &lt;- Test[, colnames(Test) != &quot;Personal Loan&quot;]
+Test_labels &lt;- Test$`Personal Loan`</code></pre>
+<p><br></p>
+</div>
+<div id="matrix-comparison" class="section level2">
+<h2><strong>Matrix Comparison</strong></h2>
+<pre class="r"><code>Predicted_Train &lt;- knn(Train_Predictors,
+                       Train_Predictors,
+                       cl=Train_labels,
+                       k=5)
+CrossTable(x = Train_labels, y = Predicted_Train, prop.chisq = F)</code></pre>
+<pre><code>## 
+##  
+##    Cell Contents
+## |-------------------------|
+## |                       N |
+## |           N / Row Total |
+## |           N / Col Total |
+## |         N / Table Total |
+## |-------------------------|
+## 
+##  
+## Total Observations in Table:  2500 
+## 
+##  
+##              | Predicted_Train 
+## Train_labels |         0 |         1 | Row Total | 
+## -------------|-----------|-----------|-----------|
+##            0 |      2271 |         1 |      2272 | 
+##              |     1.000 |     0.000 |     0.909 | 
+##              |     0.960 |     0.007 |           | 
+##              |     0.908 |     0.000 |           | 
+## -------------|-----------|-----------|-----------|
+##            1 |        95 |       133 |       228 | 
+##              |     0.417 |     0.583 |     0.091 | 
+##              |     0.040 |     0.993 |           | 
+##              |     0.038 |     0.053 |           | 
+## -------------|-----------|-----------|-----------|
+## Column Total |      2366 |       134 |      2500 | 
+##              |     0.946 |     0.054 |           | 
+## -------------|-----------|-----------|-----------|
+## 
+## </code></pre>
+<pre class="r"><code>Predicted_Valid &lt;- knn(Train_Predictors,
+                       Valid_Predictors,
+                       cl=Train_labels,
+                       k=5)
+CrossTable(x = Valid_labels, y = Predicted_Valid, prop.chisq = F)</code></pre>
+<pre><code>## 
+##  
+##    Cell Contents
+## |-------------------------|
+## |                       N |
+## |           N / Row Total |
+## |           N / Col Total |
+## |         N / Table Total |
+## |-------------------------|
+## 
+##  
+## Total Observations in Table:  1500 
+## 
+##  
+##              | Predicted_Valid 
+## Valid_labels |         0 |         1 | Row Total | 
+## -------------|-----------|-----------|-----------|
+##            0 |      1343 |         3 |      1346 | 
+##              |     0.998 |     0.002 |     0.897 | 
+##              |     0.944 |     0.038 |           | 
+##              |     0.895 |     0.002 |           | 
+## -------------|-----------|-----------|-----------|
+##            1 |        79 |        75 |       154 | 
+##              |     0.513 |     0.487 |     0.103 | 
+##              |     0.056 |     0.962 |           | 
+##              |     0.053 |     0.050 |           | 
+## -------------|-----------|-----------|-----------|
+## Column Total |      1422 |        78 |      1500 | 
+##              |     0.948 |     0.052 |           | 
+## -------------|-----------|-----------|-----------|
+## 
+## </code></pre>
+<pre class="r"><code>Predicted_Test &lt;- knn(Train_Predictors,
+                       Test_Predictors,
+                       cl=Train_labels,
+                       k=5)
+CrossTable(x = Test_labels, y = Predicted_Test, prop.chisq = F)</code></pre>
+<pre><code>## 
+##  
+##    Cell Contents
+## |-------------------------|
+## |                       N |
+## |           N / Row Total |
+## |           N / Col Total |
+## |         N / Table Total |
+## |-------------------------|
+## 
+##  
+## Total Observations in Table:  1000 
+## 
+##  
+##              | Predicted_Test 
+##  Test_labels |         0 |         1 | Row Total | 
+## -------------|-----------|-----------|-----------|
+##            0 |       900 |         2 |       902 | 
+##              |     0.998 |     0.002 |     0.902 | 
+##              |     0.939 |     0.048 |           | 
+##              |     0.900 |     0.002 |           | 
+## -------------|-----------|-----------|-----------|
+##            1 |        58 |        40 |        98 | 
+##              |     0.592 |     0.408 |     0.098 | 
+##              |     0.061 |     0.952 |           | 
+##              |     0.058 |     0.040 |           | 
+## -------------|-----------|-----------|-----------|
+## Column Total |       958 |        42 |      1000 | 
+##              |     0.958 |     0.042 |           | 
+## -------------|-----------|-----------|-----------|
+## 
+## </code></pre>
+<p><strong>When comparing the three matrices the training matrix has the
+highest accuracy (96%). This is most likely due to the k-nn model being
+trained on the training data itself resulting its results to be more
+“fit” than the validation and test results.</strong></p>
+</div>
 
 
 

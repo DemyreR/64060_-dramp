@@ -136,3 +136,61 @@ CrossTable(x=Valid_labels,y=Predicted_Valid_labels,prop.chisq = F)
 
 ```
 <br>
+
+## **New Customer With Best K Value**
+```{r}
+
+Predicted_New_Customer_K5 <- knn(Train_Predictors,
+                             New_Customer_norm,
+                             cl=Train_labels,
+                             k=5)
+print(Predicted_New_Customer_K5)
+
+```
+**The new customer is still classified as a failure.**
+<br>
+
+## **Repartition Data**
+```{r}
+
+Index_Train <- createDataPartition(UniversalBank_normalized$`Personal Loan`, p=0.5, list = F)
+Train <- UniversalBank_normalized[Index_Train,]
+Temp <- UniversalBank_normalized[-Index_Train,]
+
+Index_Valid <- createDataPartition(Temp$`Personal Loan`, p=0.6, list = F)
+Valid <- Temp[Index_Valid,]
+Test <- Temp[-Index_Valid,]
+
+Train_Predictors <- Train[, colnames(Train) != "Personal Loan"]
+Train_labels <- Train$`Personal Loan`
+Valid_Predictors <- Valid[, colnames(Valid) != "Personal Loan"]
+Valid_labels <- Valid$`Personal Loan`
+Test_Predictors <- Test[, colnames(Test) != "Personal Loan"]
+Test_labels <- Test$`Personal Loan`
+
+```
+<br>
+
+## **Matrix Comparison**
+```{r}
+
+Predicted_Train <- knn(Train_Predictors,
+                       Train_Predictors,
+                       cl=Train_labels,
+                       k=5)
+CrossTable(x = Train_labels, y = Predicted_Train, prop.chisq = F)
+
+Predicted_Valid <- knn(Train_Predictors,
+                       Valid_Predictors,
+                       cl=Train_labels,
+                       k=5)
+CrossTable(x = Valid_labels, y = Predicted_Valid, prop.chisq = F)
+
+Predicted_Test <- knn(Train_Predictors,
+                       Test_Predictors,
+                       cl=Train_labels,
+                       k=5)
+CrossTable(x = Test_labels, y = Predicted_Test, prop.chisq = F)
+
+```
+**When comparing the three matrices the training matrix has the highest accuracy (96%). This is most likely due to the k-nn model being trained on the training data itself resulting its results to be more "fit" than the validation and test results.**
