@@ -432,8 +432,8 @@ New_Customer_norm &lt;- predict(norm_model,New_Customer)
 New_Customer_norm &lt;- New_Customer_norm[,-7]</code></pre>
 <p><br></p>
 </div>
-<div id="run-k-nn" class="section level2">
-<h2><strong>Run k-NN</strong></h2>
+<div id="run-k-nn-for-new-customer" class="section level2">
+<h2><strong>Run k-NN For New Customer</strong></h2>
 <pre class="r"><code>Predicted_New_Customer &lt;- knn(Train_Predictors,
                              New_Customer_norm,
                              cl=Train_labels,
@@ -441,8 +441,48 @@ New_Customer_norm &lt;- New_Customer_norm[,-7]</code></pre>
 print(Predicted_New_Customer)</code></pre>
 <pre><code>## [1] 0
 ## Levels: 0 1</code></pre>
-<p><strong>This new customer would be classified as a
-failure.</strong></p>
+<p><strong>This new customer would be classified as a failure.</strong>
+<br></p>
+</div>
+<div id="find-best-k" class="section level2">
+<h2><strong>Find Best K</strong></h2>
+<pre class="r"><code>model &lt;- train(
+  `Personal Loan` ~ Age + Experience + Income + Family + CCAvg + Mortgage + 
+    `Securities Account` + `CD Account` + Online + CreditCard + Education1 + Education2 + Education3,
+  data = UniversalBank,
+  method = &quot;knn&quot;,
+  tuneLength = 10,
+  preProcess = &#39;range&#39;
+)</code></pre>
+<pre><code>## Warning in train.default(x, y, weights = w, ...): You are trying to do
+## regression and your outcome only has two possible values Are you trying to do
+## classification? If so, use a 2 level factor as your outcome column.</code></pre>
+<pre class="r"><code>model</code></pre>
+<pre><code>## k-Nearest Neighbors 
+## 
+## 5000 samples
+##   13 predictor
+## 
+## Pre-processing: re-scaling to [0, 1] (13) 
+## Resampling: Bootstrapped (25 reps) 
+## Summary of sample sizes: 5000, 5000, 5000, 5000, 5000, 5000, ... 
+## Resampling results across tuning parameters:
+## 
+##   k   RMSE       Rsquared   MAE       
+##    5  0.1931811  0.5829956  0.05415830
+##    7  0.1948047  0.5818536  0.05864090
+##    9  0.1975931  0.5769212  0.06221019
+##   11  0.1998975  0.5739409  0.06523905
+##   13  0.2029069  0.5667927  0.06828504
+##   15  0.2054790  0.5614566  0.07085364
+##   17  0.2073569  0.5600603  0.07286124
+##   19  0.2094536  0.5562418  0.07486405
+##   21  0.2117121  0.5503097  0.07679578
+##   23  0.2138615  0.5449725  0.07858514
+## 
+## RMSE was used to select the optimal model using the smallest value.
+## The final value used for the model was k = 5.</code></pre>
+<p><strong>The best choice for k is 5.</strong> <br></p>
 </div>
 
 

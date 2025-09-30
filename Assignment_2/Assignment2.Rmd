@@ -105,4 +105,22 @@ Predicted_New_Customer <- knn(Train_Predictors,
 print(Predicted_New_Customer)
 ```
 **This new customer would be classified as a failure.**
+<br>
+
+## **Find Best K**
+```{r}
+
+model <- train(
+  `Personal Loan` ~ Age + Experience + Income + Family + CCAvg + Mortgage + 
+    `Securities Account` + `CD Account` + Online + CreditCard + Education1 + Education2 + Education3,
+  data = UniversalBank,
+  method = "knn",
+  tuneLength = 10,
+  preProcess = 'range'
+)
+model
+
+```
+**The best choice for k is 5.**
+<br>
 
