@@ -44,4 +44,30 @@ UniversalBank <- UniversalBank[,-6]
 ```
 <br>
 
+## **Normalize Data**
+```{r}
+
+norm_model <- preProcess(UniversalBank, method = c('range'))
+UniversalBank_normalized <- predict(norm_model,UniversalBank)
+
+```
+<br>
+
+## **Split Data**
+```{r}
+
+set.seed(123)
+Index_Train <- createDataPartition(UniversalBank_normalized$`Personal Loan`, p=0.6, list = F)
+Train <- UniversalBank_normalized[Index_Train,]
+Test <- UniversalBank_normalized[-Index_Train,]
+
+Train_Predictors <- Train[,-7]
+Test_Predictors <- Test[,-7]
+
+Train_labels <- Train[,7]
+Test_labels <- Test[,7]
+
+```
+<br>
+
 
