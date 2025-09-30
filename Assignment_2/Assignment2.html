@@ -484,6 +484,48 @@ print(Predicted_New_Customer)</code></pre>
 ## The final value used for the model was k = 5.</code></pre>
 <p><strong>The best choice for k is 5.</strong> <br></p>
 </div>
+<div id="confusion-matrix" class="section level2">
+<h2><strong>Confusion Matrix</strong></h2>
+<pre class="r"><code>Predicted_Valid_labels &lt;- knn(Train_Predictors,
+                             valid_Predictors,
+                             cl=Train_labels,
+                             k=5)
+
+CrossTable(x=Valid_labels,y=Predicted_Valid_labels,prop.chisq = F)</code></pre>
+<pre><code>## 
+##  
+##    Cell Contents
+## |-------------------------|
+## |                       N |
+## |           N / Row Total |
+## |           N / Col Total |
+## |         N / Table Total |
+## |-------------------------|
+## 
+##  
+## Total Observations in Table:  2000 
+## 
+##  
+##              | Predicted_Valid_labels 
+## Valid_labels |         0 |         1 | Row Total | 
+## -------------|-----------|-----------|-----------|
+##            0 |      1794 |         4 |      1798 | 
+##              |     0.998 |     0.002 |     0.899 | 
+##              |     0.949 |     0.036 |           | 
+##              |     0.897 |     0.002 |           | 
+## -------------|-----------|-----------|-----------|
+##            1 |        96 |       106 |       202 | 
+##              |     0.475 |     0.525 |     0.101 | 
+##              |     0.051 |     0.964 |           | 
+##              |     0.048 |     0.053 |           | 
+## -------------|-----------|-----------|-----------|
+## Column Total |      1890 |       110 |      2000 | 
+##              |     0.945 |     0.055 |           | 
+## -------------|-----------|-----------|-----------|
+## 
+## </code></pre>
+<p><br></p>
+</div>
 
 
 

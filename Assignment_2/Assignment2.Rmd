@@ -124,3 +124,15 @@ model
 **The best choice for k is 5.**
 <br>
 
+## **Confusion Matrix**
+```{r}
+
+Predicted_Valid_labels <- knn(Train_Predictors,
+                             valid_Predictors,
+                             cl=Train_labels,
+                             k=5)
+
+CrossTable(x=Valid_labels,y=Predicted_Valid_labels,prop.chisq = F)
+
+```
+<br>
