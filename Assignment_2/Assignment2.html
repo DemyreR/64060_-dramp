@@ -376,6 +376,74 @@ library(readr)</code></pre>
 <p><em>Data sourced from Canvas.</em></p>
 <p><br></p>
 </div>
+<div id="drop-data" class="section level2">
+<h2><strong>Drop Data</strong></h2>
+<pre class="r"><code>UniversalBank &lt;- UniversalBank[,-5]
+UniversalBank &lt;- UniversalBank[,-1]</code></pre>
+<p><br></p>
+</div>
+<div id="dummy-variables" class="section level2">
+<h2><strong>Dummy Variables</strong></h2>
+<pre class="r"><code>UniversalBank$Education &lt;- as.factor(UniversalBank$Education)
+DummyVariables &lt;- model.matrix(~ Education - 1, data = UniversalBank)
+UniversalBank[,colnames(DummyVariables)] &lt;- DummyVariables
+UniversalBank &lt;- UniversalBank[,-6]</code></pre>
+<p><br></p>
+</div>
+<div id="normalize-data" class="section level2">
+<h2><strong>Normalize Data</strong></h2>
+<pre class="r"><code>norm_model &lt;- preProcess(UniversalBank, method = c(&#39;range&#39;))
+UniversalBank_normalized &lt;- predict(norm_model,UniversalBank)</code></pre>
+<p><br></p>
+</div>
+<div id="split-data" class="section level2">
+<h2><strong>Split Data</strong></h2>
+<pre class="r"><code>set.seed(123)
+Index_Train &lt;- createDataPartition(UniversalBank_normalized$`Personal Loan`, p=0.6, list = F)
+Train &lt;- UniversalBank_normalized[Index_Train,]
+Valid &lt;- UniversalBank_normalized[-Index_Train,]
+
+Train_Predictors &lt;- Train[, colnames(Train) != &quot;Personal Loan&quot;]
+Train_labels &lt;- Train$`Personal Loan`
+valid_Predictors &lt;- Valid[, colnames(Valid) != &quot;Personal Loan&quot;]
+Valid_labels &lt;- Valid$`Personal Loan`</code></pre>
+<p><br></p>
+</div>
+<div id="add-new-customer" class="section level2">
+<h2><strong>Add New Customer</strong></h2>
+<pre class="r"><code>New_Customer &lt;- UniversalBank_normalized[0, ]
+New_Customer[1, ] &lt;- data.frame(
+  Age = 40,
+  Experience = 10,
+  Income = 84,
+  Family = 2,
+  CCAvg = 2,
+  Mortgage = 0,
+  &#39;Personal Loan&#39; = 0,
+  &#39;Securities Account&#39; = 0,
+  &#39;CD Account&#39; = 0,
+  Online = 1,
+  CreditCard = 1,
+  Education1 = 0,
+  Education2 = 1,
+  Education3 = 0
+)
+New_Customer_norm &lt;- predict(norm_model,New_Customer)
+New_Customer_norm &lt;- New_Customer_norm[,-7]</code></pre>
+<p><br></p>
+</div>
+<div id="run-k-nn" class="section level2">
+<h2><strong>Run k-NN</strong></h2>
+<pre class="r"><code>Predicted_New_Customer &lt;- knn(Train_Predictors,
+                             New_Customer_norm,
+                             cl=Train_labels,
+                             k=1)
+print(Predicted_New_Customer)</code></pre>
+<pre><code>## [1] 0
+## Levels: 0 1</code></pre>
+<p><strong>This new customer would be classified as a
+failure.</strong></p>
+</div>
 
 
 

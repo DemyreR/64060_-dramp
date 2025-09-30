@@ -59,15 +59,50 @@ UniversalBank_normalized <- predict(norm_model,UniversalBank)
 set.seed(123)
 Index_Train <- createDataPartition(UniversalBank_normalized$`Personal Loan`, p=0.6, list = F)
 Train <- UniversalBank_normalized[Index_Train,]
-Test <- UniversalBank_normalized[-Index_Train,]
+Valid <- UniversalBank_normalized[-Index_Train,]
 
-Train_Predictors <- Train[,-7]
-Test_Predictors <- Test[,-7]
-
-Train_labels <- Train[,7]
-Test_labels <- Test[,7]
+Train_Predictors <- Train[, colnames(Train) != "Personal Loan"]
+Train_labels <- Train$`Personal Loan`
+valid_Predictors <- Valid[, colnames(Valid) != "Personal Loan"]
+Valid_labels <- Valid$`Personal Loan`
 
 ```
 <br>
 
+## **Add New Customer**
+```{r}
+
+New_Customer <- UniversalBank_normalized[0, ]
+New_Customer[1, ] <- data.frame(
+  Age = 40,
+  Experience = 10,
+  Income = 84,
+  Family = 2,
+  CCAvg = 2,
+  Mortgage = 0,
+  'Personal Loan' = 0,
+  'Securities Account' = 0,
+  'CD Account' = 0,
+  Online = 1,
+  CreditCard = 1,
+  Education1 = 0,
+  Education2 = 1,
+  Education3 = 0
+)
+New_Customer_norm <- predict(norm_model,New_Customer)
+New_Customer_norm <- New_Customer_norm[,-7]
+ 
+```
+<br>
+
+## **Run k-NN For New Customer**
+```{r}
+
+Predicted_New_Customer <- knn(Train_Predictors,
+                             New_Customer_norm,
+                             cl=Train_labels,
+                             k=1)
+print(Predicted_New_Customer)
+```
+**This new customer would be classified as a failure.**
 
