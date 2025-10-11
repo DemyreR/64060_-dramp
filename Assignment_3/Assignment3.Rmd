@@ -12,6 +12,7 @@ library(caret)
 library(gmodels)
 library(readr)
 library(reshape2)
+library(e1071)
 
 ```
 <br>
@@ -47,3 +48,15 @@ print(Pivot_Table)
 ```
 <br>
 
+## **Probability**
+
+$P(Loan = 1|CreditCard = 1, Online = 1)$
+```{r}
+
+Prob_Online <- (Pivot_Table[4,4] / (Pivot_Table[3,4] + Pivot_Table[4,4]))
+print(Prob_Online)
+print(paste("If a customer who owns a bank credit card and is actively using online banking services.",
+            "The probability that this customer will accept the loan offer is", Prob_Online * 100, "%"))
+
+```
+<br>
