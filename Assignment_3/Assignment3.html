@@ -399,7 +399,7 @@ print(Pivot_Table)</code></pre>
 <p><br></p>
 </div>
 <div id="probability" class="section level2">
-<h2><strong>Probability </strong></h2>
+<h2><strong>Probability</strong></h2>
 <p><span class="math inline">\(P(Loan = 1|CreditCard = 1, Online =
 1)\)</span></p>
 <pre class="r"><code>Prob_Online &lt;- (Pivot_Table[4,4] / (Pivot_Table[3,4] + Pivot_Table[4,4]))
@@ -408,6 +408,26 @@ print(Prob_Online)</code></pre>
 <pre class="r"><code>print(paste(&quot;If a customer who owns a bank credit card and is actively using online banking services.&quot;,
             &quot;The probability that this customer will accept the loan offer is&quot;, Prob_Online * 100, &quot;%&quot;))</code></pre>
 <pre><code>## [1] &quot;If a customer who owns a bank credit card and is actively using online banking services. The probability that this customer will accept the loan offer is 10.7142857142857 %&quot;</code></pre>
+<p><br></p>
+</div>
+<div id="more-training-pivot-tables" class="section level2">
+<h2><strong>More Training Pivot Tables</strong></h2>
+<pre class="r"><code>Train_Melt_Online &lt;- melt(Train, id.vars = c(&quot;Online&quot;, &quot;Personal Loan&quot;))
+Pivot_Table_Online &lt;- dcast(Train_Melt_Online, `Personal Loan` ~ Online, fun.aggregate = length)
+print(&quot;Personal Loan (rows) as a function of Online (columns):&quot;)</code></pre>
+<pre><code>## [1] &quot;Personal Loan (rows) as a function of Online (columns):&quot;</code></pre>
+<pre class="r"><code>print(Pivot_Table_Online)</code></pre>
+<pre><code>##   Personal Loan     0     1
+## 1             0 13224 19440
+## 2             1  1188  2148</code></pre>
+<pre class="r"><code>Train_Melt_CreditCard &lt;- melt(Train, id.vars = c(&quot;CreditCard&quot;, &quot;Personal Loan&quot;))
+Pivot_Table_CreditCard &lt;- dcast(Train_Melt_CreditCard, `Personal Loan` ~ CreditCard, fun.aggregate = length)
+print(&quot;Personal Loan (rows) as a function of CreditCard (columns):&quot;)</code></pre>
+<pre><code>## [1] &quot;Personal Loan (rows) as a function of CreditCard (columns):&quot;</code></pre>
+<pre class="r"><code>print(Pivot_Table_CreditCard)</code></pre>
+<pre><code>##   Personal Loan     0    1
+## 1             0 23160 9504
+## 2             1  2244 1092</code></pre>
 <p><br></p>
 </div>
 

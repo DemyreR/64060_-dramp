@@ -60,3 +60,20 @@ print(paste("If a customer who owns a bank credit card and is actively using onl
 
 ```
 <br>
+
+## **More Training Pivot Tables**
+```{r}
+
+Train_Melt_Online <- melt(Train, id.vars = c("Online", "Personal Loan"))
+Pivot_Table_Online <- dcast(Train_Melt_Online, `Personal Loan` ~ Online, fun.aggregate = length)
+print("Personal Loan (rows) as a function of Online (columns):")
+print(Pivot_Table_Online)
+
+Train_Melt_CreditCard <- melt(Train, id.vars = c("CreditCard", "Personal Loan"))
+Pivot_Table_CreditCard <- dcast(Train_Melt_CreditCard, `Personal Loan` ~ CreditCard, fun.aggregate = length)
+print("Personal Loan (rows) as a function of CreditCard (columns):")
+print(Pivot_Table_CreditCard)
+
+```
+<br>
+
