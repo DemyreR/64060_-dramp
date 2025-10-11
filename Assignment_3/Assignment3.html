@@ -383,6 +383,19 @@ library(reshape2)</code></pre>
 Index_Train &lt;- createDataPartition(UniversalBank$`Personal Loan`, p=0.6, list = F)
 Train &lt;- UniversalBank[Index_Train,]
 Valid &lt;- UniversalBank[-Index_Train,]</code></pre>
+<p><br></p>
+</div>
+<div id="training-pivot-table" class="section level2">
+<h2><strong>Training Pivot Table</strong></h2>
+<pre class="r"><code>Train_Melt &lt;- melt(Train, id.vars = c(&quot;CreditCard&quot;, &quot;Online&quot;, &quot;Personal Loan&quot;))
+Pivot_Table &lt;- dcast(Train_Melt, CreditCard + `Personal Loan` ~ Online, fun.aggregate = length)
+print(Pivot_Table)</code></pre>
+<pre><code>##   CreditCard Personal Loan    0     1
+## 1          0             0 8635 12595
+## 2          0             1  715  1342
+## 3          1             0 3487  5225
+## 4          1             1  374   627</code></pre>
+<p><br></p>
 </div>
 
 

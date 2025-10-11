@@ -1,6 +1,7 @@
 ---
 title: "Assignment3"
-output: html_document
+output:
+  html_document: default
 ---
 
 ## **Load Libraries**
@@ -34,4 +35,15 @@ Train <- UniversalBank[Index_Train,]
 Valid <- UniversalBank[-Index_Train,]
 
 ```
+<br>
+
+## **Training Pivot Table**
+```{r}
+
+Train_Melt <- melt(Train, id.vars = c("CreditCard", "Online", "Personal Loan"))
+Pivot_Table <- dcast(Train_Melt, CreditCard + `Personal Loan` ~ Online, fun.aggregate = length)
+print(Pivot_Table)
+
+```
+<br>
 
