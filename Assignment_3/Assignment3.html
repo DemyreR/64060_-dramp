@@ -430,6 +430,60 @@ print(&quot;Personal Loan (rows) as a function of CreditCard (columns):&quot;)</
 ## 2             1  2244 1092</code></pre>
 <p><br></p>
 </div>
+<div id="more-probabilities" class="section level2">
+<h2><strong>More Probabilities</strong></h2>
+<ol style="list-style-type: lower-roman">
+<li><span class="math inline">\(P(CreditCard = 1 | Personal Loan =
+1)\)</span></li>
+</ol>
+<pre class="r"><code>Prob_CC_PL &lt;- (Pivot_Table_CreditCard[2,3]/(Pivot_Table_CreditCard[2,2]+Pivot_Table_CreditCard[2,3]))
+print(Prob_CC_PL)</code></pre>
+<pre><code>## [1] 0.3273381</code></pre>
+<ol start="2" style="list-style-type: lower-roman">
+<li><span class="math inline">\(P(Online = 1 | Personal Loan =
+1)\)</span></li>
+</ol>
+<pre class="r"><code>Prob_O_PL &lt;- (Pivot_Table_Online[2,3]/(Pivot_Table_Online[2,2]+Pivot_Table_Online[2,3]))
+print(Prob_O_PL)</code></pre>
+<pre><code>## [1] 0.6438849</code></pre>
+<ol start="3" style="list-style-type: lower-roman">
+<li><span class="math inline">\(P(Personal Loan = 1)\)</span></li>
+</ol>
+<pre class="r"><code>Prob_PL &lt;- ((Pivot_Table_CreditCard[2,2]+Pivot_Table_CreditCard[2,3])/
+              (Pivot_Table_Online[1,2]+Pivot_Table_Online[2,2]+Pivot_Table_Online[1,3]+Pivot_Table_Online[2,3]))
+Prob_PL2 &lt;- ((Pivot_Table_Online[2,2]+Pivot_Table_Online[2,3])/
+              (Pivot_Table_Online[1,2]+Pivot_Table_Online[2,2]+Pivot_Table_Online[1,3]+Pivot_Table_Online[2,3]))
+if(Prob_PL == Prob_PL2) {
+  print(Prob_PL)
+}</code></pre>
+<pre><code>## [1] 0.09266667</code></pre>
+<ol start="4" style="list-style-type: lower-roman">
+<li><span class="math inline">\(P(CreditCard = 1 | Personal Loan =
+0)\)</span></li>
+</ol>
+<pre class="r"><code>Prob_CC_PL0 &lt;- (Pivot_Table_CreditCard[1,3]/(Pivot_Table_CreditCard[1,2]+Pivot_Table_CreditCard[1,3]))
+print(Prob_CC_PL0)</code></pre>
+<pre><code>## [1] 0.2909625</code></pre>
+<ol start="22" style="list-style-type: lower-alpha">
+<li><span class="math inline">\(P(Online = 1 | Personal Loan =
+0)\)</span></li>
+</ol>
+<pre class="r"><code>Prob_O_PL0 &lt;- (Pivot_Table_Online[1,3]/(Pivot_Table_Online[1,2]+Pivot_Table_Online[1,3]))
+print(Prob_O_PL0)</code></pre>
+<pre><code>## [1] 0.5951506</code></pre>
+<ol start="6" style="list-style-type: lower-roman">
+<li><span class="math inline">\(P(Personal Loan = 0)\)</span></li>
+</ol>
+<pre class="r"><code>Prob_PL0 &lt;- ((Pivot_Table_CreditCard[1,2]+Pivot_Table_CreditCard[1,3])/
+              (Pivot_Table_Online[1,2]+Pivot_Table_Online[2,2]+Pivot_Table_Online[1,3]+Pivot_Table_Online[2,3]))
+Prob_PL02 &lt;- ((Pivot_Table_Online[1,2]+Pivot_Table_Online[1,3])/
+              (Pivot_Table_Online[1,2]+Pivot_Table_Online[2,2]+Pivot_Table_Online[1,3]+Pivot_Table_Online[2,3]))
+if(Prob_PL0 == Prob_PL02 &amp; 1-Prob_PL) {
+  print(Prob_PL0)
+}</code></pre>
+<pre><code>## [1] 0.9073333</code></pre>
+<p><br></p>
+</div>
 
 
 
