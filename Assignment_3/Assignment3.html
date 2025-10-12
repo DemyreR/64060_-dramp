@@ -400,8 +400,8 @@ print(Pivot_Table)</code></pre>
 </div>
 <div id="probability" class="section level2">
 <h2><strong>Probability</strong></h2>
-<p><span class="math inline">\(P(Loan = 1|CreditCard = 1, Online =
-1)\)</span></p>
+<p><span class="math inline">\(P(Personal Loan = 1|CreditCard = 1,
+Online = 1)\)</span></p>
 <pre class="r"><code>Prob_Online &lt;- (Pivot_Table[4,4] / (Pivot_Table[3,4] + Pivot_Table[4,4]))
 print(Prob_Online)</code></pre>
 <pre><code>## [1] 0.1071429</code></pre>
@@ -483,6 +483,31 @@ if(Prob_PL0 == Prob_PL02 &amp; 1-Prob_PL) {
 }</code></pre>
 <pre><code>## [1] 0.9073333</code></pre>
 <p><br></p>
+</div>
+<div id="naive-bayes" class="section level2">
+<h2><strong>Naive Bayes</strong></h2>
+<p><span class="math inline">\(P(Personal Loan = 1|CreditCard = 1,
+Online = 1)\)</span></p>
+<pre class="r"><code>Prob_CC_PL_O_PL_PL &lt;- (Prob_CC_PL*Prob_O_PL*Prob_PL)
+Prob_CC_PL_O_PL_PL &lt;- (Prob_CC_PL*Prob_O_PL*Prob_PL)
+Prob_CC_PL0_O_PL0_PL0 &lt;- (Prob_CC_PL0*Prob_O_PL0*Prob_PL0)
+Prob_CC_O &lt;- Prob_CC_PL_O_PL_PL+Prob_CC_PL0_O_PL0_PL0
+Prob_CC_O_PL &lt;- Prob_CC_PL_O_PL_PL/Prob_CC_O
+print(Prob_CC_O_PL)</code></pre>
+<pre><code>## [1] 0.1105637</code></pre>
+<p><br></p>
+</div>
+<div id="compare-values" class="section level2">
+<h2><strong>Compare Values</strong></h2>
+<pre class="r"><code>print(paste(&quot;B:&quot;, Prob_Online))</code></pre>
+<pre><code>## [1] &quot;B: 0.107142857142857&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;E:&quot;, Prob_CC_O_PL))</code></pre>
+<pre><code>## [1] &quot;E: 0.110563663384569&quot;</code></pre>
+<p>The Naive Bayes estimate is slightly higher than the original
+estimate. When considering only the training data the first model would
+be considered a <u><strong>more accurate</strong></u> estimate. But,
+when making predictions on new unseen data the Naive Bayes estimate
+would likely be more accurate. <br></p>
 </div>
 
 

@@ -50,7 +50,7 @@ print(Pivot_Table)
 
 ## **Probability**
 
-$P(Loan = 1|CreditCard = 1, Online = 1)$
+$P(Personal Loan = 1|CreditCard = 1, Online = 1)$
 ```{r}
 
 Prob_Online <- (Pivot_Table[4,4] / (Pivot_Table[3,4] + Pivot_Table[4,4]))
@@ -125,5 +125,32 @@ if(Prob_PL0 == Prob_PL02 & 1-Prob_PL) {
 }
 ```
 <br>
+
+## **Naive Bayes**
+
+$P(Personal Loan = 1|CreditCard = 1, Online = 1)$
+```{r}
+
+Prob_CC_PL_O_PL_PL <- (Prob_CC_PL*Prob_O_PL*Prob_PL)
+Prob_CC_PL_O_PL_PL <- (Prob_CC_PL*Prob_O_PL*Prob_PL)
+Prob_CC_PL0_O_PL0_PL0 <- (Prob_CC_PL0*Prob_O_PL0*Prob_PL0)
+Prob_CC_O <- Prob_CC_PL_O_PL_PL+Prob_CC_PL0_O_PL0_PL0
+Prob_CC_O_PL <- Prob_CC_PL_O_PL_PL/Prob_CC_O
+print(Prob_CC_O_PL)
+
+```
+<br>
+
+## **Compare Values**
+
+```{r}
+print(paste("B:", Prob_Online))
+print(paste("E:", Prob_CC_O_PL))
+```
+The Naive Bayes estimate is slightly higher than the original estimate.
+When considering only the training data the first model would be considered a <u>**more accurate**</u> estimate.
+But, when making predictions on new unseen data the Naive Bayes estimate would likely be more accurate.
+<br>
+
 
 
