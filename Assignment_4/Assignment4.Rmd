@@ -1,0 +1,47 @@
+---
+title: "Assignment4"
+output: html_document
+---
+
+## **Load Libraries**
+```{r}
+
+library(readr)
+library(factoextra)
+library(flexclust)
+library(tidyverse)
+library(caret)
+
+```
+<br>
+
+## **Import Data**
+```{r}
+
+Pharmaceuticals <- read_csv("Pharmaceuticals.csv")
+
+```
+*Data sourced from Canvas.*
+
+<br>
+
+## **Numerical Variables Only**
+```{r}
+
+sapply(Pharmaceuticals, class)
+Pharmaceuticals_Num <- Pharmaceuticals[,3:11]
+sapply(Pharmaceuticals_Num, class)
+
+```
+<br>
+
+## **Normalize Data**
+```{r}
+
+summary(Pharmaceuticals_Num)
+norm_model <- preProcess(Pharmaceuticals_Num, method = c("center", "scale"))
+Pharmaceuticals_Norm <- predict(norm_model,Pharmaceuticals_Num)
+summary(Pharmaceuticals_Norm)
+
+```
+<br>
