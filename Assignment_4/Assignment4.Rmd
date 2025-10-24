@@ -38,6 +38,7 @@ sapply(Pharmaceuticals_Num, class)
 ## **Normalize Data**
 ```{r}
 
+set.seed(123)
 summary(Pharmaceuticals_Num)
 norm_model <- preProcess(Pharmaceuticals_Num, method = c("center", "scale"))
 Pharmaceuticals_Norm <- predict(norm_model,Pharmaceuticals_Num)
@@ -53,5 +54,21 @@ fviz_nbclust(Pharmaceuticals_Norm, kmeans, method = "wss")
 fviz_nbclust(Pharmaceuticals_Norm, kmeans, method = "silhouette")
 
 ```
+<br>
+
+## **Clustering**
+```{r}
+
+distance <- get_dist(Pharmaceuticals_Norm)
+fviz_dist(distance)
+
+Pharmaceuticals_Clusters <- kmeans(Pharmaceuticals_Norm, centers = 4, nstart = 25)
+Pharmaceuticals_Clusters$centers
+Pharmaceuticals_Clusters$size
+
+fviz_cluster(Pharmaceuticals_Clusters, data = Pharmaceuticals_Norm)
+
+```
+<br>
 
 
