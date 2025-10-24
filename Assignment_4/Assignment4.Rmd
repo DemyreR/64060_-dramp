@@ -11,6 +11,8 @@ library(factoextra)
 library(flexclust)
 library(tidyverse)
 library(caret)
+library(dplyr)
+library(ggplot2)
 
 ```
 <br>
@@ -71,4 +73,160 @@ fviz_cluster(Pharmaceuticals_Clusters, data = Pharmaceuticals_Norm)
 ```
 <br>
 
+## **Cluster Interpretation for Categorical Variable**
+```{r}
+
+Pharmaceuticals_Clusters$cluster
+Pharmaceuticals_Interp <- Pharmaceuticals[,-(3:11)]
+Pharmaceuticals_Interp$Cluster <- Pharmaceuticals_Clusters$cluster
+
+Clusters <- split(Pharmaceuticals_Interp, Pharmaceuticals_Interp$Cluster)
+
+print(Clusters)
+
+```
+<br>
+
+### Median Recommendation by Cluster
+```{r}
+
+ggplot(Pharmaceuticals_Interp, aes(x = factor(Cluster), fill = Median_Recommendation)) +
+  geom_bar() +
+  labs(title = "Distribution of Median Recommendation by Cluster", x = "Cluster", y = "Count") +
+  theme_minimal()
+
+```
+
+### Location by Cluster
+```{r}
+
+ggplot(Pharmaceuticals_Interp, aes(x = factor(Cluster), fill = Location)) +
+  geom_bar() +
+  labs(title = "Distribution of Location by Cluster", x = "Cluster", y = "Count") +
+  theme_minimal()
+
+```
+
+### Exchange by Cluster
+```{r}
+
+ggplot(Pharmaceuticals_Interp, aes(x = factor(Cluster), fill = Exchange)) +
+  geom_bar() +
+  labs(title = "Distribution of Exchange by Cluster", x = "Cluster", y = "Count") +
+  theme_minimal()
+
+```
+
+
+## **Cluster Interpretation for Numerical Variable**
+```{r}
+
+Pharmaceuticals_Num_Clusters <- Pharmaceuticals[,3:11]
+Pharmaceuticals_Num_Clusters$Cluster <- Pharmaceuticals_Clusters$cluster
+
+Clusters <- split(Pharmaceuticals_Num_Clusters, Pharmaceuticals_Num_Clusters$Cluster)
+
+print(Clusters)
+
+```
+<br>
+
+### Market_Cap by Cluster
+```{r}
+
+ggplot(Pharmaceuticals_Num_Clusters, aes(x = factor(Cluster), y = Market_Cap, fill = factor(Cluster))) +
+  geom_bar(stat = "summary", fun = "mean") +
+  labs(title = "Average Market_Cap by Cluster", x = "Cluster", y = "Market_Cap") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
+### Beta by Cluster
+```{r}
+
+ggplot(Pharmaceuticals_Num_Clusters, aes(x = factor(Cluster), y = Beta, fill = factor(Cluster))) +
+  geom_bar(stat = "summary", fun = "mean") +
+  labs(title = "Average Beta by Cluster", x = "Cluster", y = "Beta") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
+### PE_Ratio by Cluster
+```{r}
+
+ggplot(Pharmaceuticals_Num_Clusters, aes(x = factor(Cluster), y = PE_Ratio, fill = factor(Cluster))) +
+  geom_bar(stat = "summary", fun = "mean") +
+  labs(title = "Average PE_Ratio by Cluster", x = "Cluster", y = "PE_Ratio") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
+### ROE by Cluster
+```{r}
+
+ggplot(Pharmaceuticals_Num_Clusters, aes(x = factor(Cluster), y = ROE, fill = factor(Cluster))) +
+  geom_bar(stat = "summary", fun = "mean") +
+  labs(title = "Average ROE by Cluster", x = "Cluster", y = "ROE") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
+### ROA by Cluster
+```{r}
+
+ggplot(Pharmaceuticals_Num_Clusters, aes(x = factor(Cluster), y = ROA, fill = factor(Cluster))) +
+  geom_bar(stat = "summary", fun = "mean") +
+  labs(title = "Average ROA by Cluster", x = "Cluster", y = "ROA") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
+### Asset_Turnover by Cluster
+```{r}
+
+ggplot(Pharmaceuticals_Num_Clusters, aes(x = factor(Cluster), y = Asset_Turnover, fill = factor(Cluster))) +
+  geom_bar(stat = "summary", fun = "mean") +
+  labs(title = "Average Asset_Turnover by Cluster", x = "Cluster", y = "Asset_Turnover") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
+### Leverage by Cluster
+```{r}
+
+ggplot(Pharmaceuticals_Num_Clusters, aes(x = factor(Cluster), y = Leverage, fill = factor(Cluster))) +
+  geom_bar(stat = "summary", fun = "mean") +
+  labs(title = "Average Leverage by Cluster", x = "Cluster", y = "Leverage") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
+### Rev_Growth by Cluster
+```{r}
+
+ggplot(Pharmaceuticals_Num_Clusters, aes(x = factor(Cluster), y = Rev_Growth, fill = factor(Cluster))) +
+  geom_bar(stat = "summary", fun = "mean") +
+  labs(title = "Average Rev_Growth by Cluster", x = "Cluster", y = "Rev_Growth") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
+### Net_Profit_Margin by Cluster
+```{r}
+
+ggplot(Pharmaceuticals_Num_Clusters, aes(x = factor(Cluster), y = Net_Profit_Margin, fill = factor(Cluster))) +
+  geom_bar(stat = "summary", fun = "mean") +
+  labs(title = "Average Net_Profit_Margin by Cluster", x = "Cluster", y = "Net_Profit_Margin") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
 
