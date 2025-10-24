@@ -45,3 +45,13 @@ summary(Pharmaceuticals_Norm)
 
 ```
 <br>
+
+## **Finding K**
+```{r}
+
+fviz_nbclust(Pharmaceuticals_Norm, kmeans, method = "wss")
+fviz_nbclust(Pharmaceuticals_Norm, kmeans, method = "silhouette")
+
+```
+
+
