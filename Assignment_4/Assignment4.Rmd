@@ -73,51 +73,6 @@ fviz_cluster(Pharmaceuticals_Clusters, data = Pharmaceuticals_Norm)
 ```
 <br>
 
-## **Cluster Interpretation for Categorical Variable**
-```{r}
-
-Pharmaceuticals_Clusters$cluster
-Pharmaceuticals_Interp <- Pharmaceuticals[,-(3:11)]
-Pharmaceuticals_Interp$Cluster <- Pharmaceuticals_Clusters$cluster
-
-Clusters <- split(Pharmaceuticals_Interp, Pharmaceuticals_Interp$Cluster)
-
-print(Clusters)
-
-```
-<br>
-
-### Median Recommendation by Cluster
-```{r}
-
-ggplot(Pharmaceuticals_Interp, aes(x = factor(Cluster), fill = Median_Recommendation)) +
-  geom_bar() +
-  labs(title = "Distribution of Median Recommendation by Cluster", x = "Cluster", y = "Count") +
-  theme_minimal()
-
-```
-
-### Location by Cluster
-```{r}
-
-ggplot(Pharmaceuticals_Interp, aes(x = factor(Cluster), fill = Location)) +
-  geom_bar() +
-  labs(title = "Distribution of Location by Cluster", x = "Cluster", y = "Count") +
-  theme_minimal()
-
-```
-
-### Exchange by Cluster
-```{r}
-
-ggplot(Pharmaceuticals_Interp, aes(x = factor(Cluster), fill = Exchange)) +
-  geom_bar() +
-  labs(title = "Distribution of Exchange by Cluster", x = "Cluster", y = "Count") +
-  theme_minimal()
-
-```
-
-
 ## **Cluster Interpretation for Numerical Variable**
 ```{r}
 
@@ -229,4 +184,51 @@ ggplot(Pharmaceuticals_Num_Clusters, aes(x = factor(Cluster), y = Net_Profit_Mar
   theme(legend.position = "none")
 
 ```
+
+## **Cluster Interpretation for Categorical Variable**
+```{r}
+
+Pharmaceuticals_Clusters$cluster
+Pharmaceuticals_Interp <- Pharmaceuticals[,-(3:11)]
+Pharmaceuticals_Interp$Cluster <- Pharmaceuticals_Clusters$cluster
+
+Clusters <- split(Pharmaceuticals_Interp, Pharmaceuticals_Interp$Cluster)
+
+print(Clusters)
+
+```
+<br>
+
+### Median Recommendation by Cluster
+```{r}
+
+ggplot(Pharmaceuticals_Interp, aes(x = factor(Cluster), fill = Median_Recommendation)) +
+  geom_bar() +
+  labs(title = "Distribution of Median Recommendation by Cluster", x = "Cluster", y = "Count") +
+  theme_minimal()
+
+```
+
+### Location by Cluster
+```{r}
+
+ggplot(Pharmaceuticals_Interp, aes(x = factor(Cluster), fill = Location)) +
+  geom_bar() +
+  labs(title = "Distribution of Location by Cluster", x = "Cluster", y = "Count") +
+  theme_minimal()
+
+```
+
+### Exchange by Cluster
+```{r}
+
+ggplot(Pharmaceuticals_Interp, aes(x = factor(Cluster), fill = Exchange)) +
+  geom_bar() +
+  labs(title = "Distribution of Exchange by Cluster", x = "Cluster", y = "Count") +
+  theme_minimal()
+
+```
+
+
+
 
