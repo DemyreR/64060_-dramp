@@ -52,7 +52,10 @@ summary(Pharmaceuticals_Norm)
 ## **Finding K**
 ```{r}
 
-fviz_nbclust(Pharmaceuticals_Norm, kmeans, method = "wss")
+fviz_nbclust(Pharmaceuticals_Norm, kmeans, method = "wss") +
+  geom_hline(yintercept = 80, linetype = 2, color = "royalblue", size = 0.5) +
+  ggtitle("Elbow Method with k = 4 Highlighted")
+
 fviz_nbclust(Pharmaceuticals_Norm, kmeans, method = "silhouette")
 
 ```
@@ -72,6 +75,26 @@ fviz_cluster(Pharmaceuticals_Clusters, data = Pharmaceuticals_Norm)
 
 ```
 <br>
+
+# **<span style="color:DarkBlue">Question A:</span>**
+## **Justification of Choices**
+
+#### - Normalization:  
+I chose to use z-score ("center" and "scale") because the numerical variables have 
+very different magnitudes and is recommended for k-means.
+
+#### - Distance Metric:  
+I chose to use Euclidean because it works well when variables are standardized 
+and is recommended for k-means.
+
+#### - Clustering Algorithm:  
+I chose to use kmeans() and not kcca because we are using numerical variables only 
+and are using euclidean distance.
+
+#### - Number of Clusters:  
+I chose 4 by using the "wss" method because the plot shows a clear bend at k = 4 
+and the shapes of the clusters in k = 4 logically fits the data more than k = 5 
+from the "silhouette" method.
 
 ## **Cluster Interpretation for Numerical Variable**
 ```{r}
@@ -185,6 +208,48 @@ ggplot(Pharmaceuticals_Num_Clusters, aes(x = factor(Cluster), y = Net_Profit_Mar
 
 ```
 
+# **<span style="color:DarkBlue">Question B:</span>**
+### **Interpretation**
+
+#### Cluster 1:  
+- Has the highest average Market Cap  
+- Has the highest average ROE  
+- Has the highest average ROA  
+- Has the highest average Net Profit Margin  
+- Has the least average Leverage  
+
+Interpretation: Stable, efficient and highly profitable  
+
+#### Cluster 2:  
+- Has the highest average PE Ratio  
+- Has high average Beta  
+- Has low average Leverage  
+- Has low average Rev Growth  
+- Has the least average ROE  
+- Has the least average ROA  
+- Has the least average Net Profit Margin  
+
+Interpretation: Low Growth, not very efficient, and not very profitable  
+
+#### Cluster 3:  
+- Has the highest average Beta  
+- Has the highest average Leverage  
+- Has the highest average Rev Growth  
+- Has low average ROE  
+- Has low average ROA  
+- Has the least average Market Cap  
+- Has the least average Asset Turnover  
+
+Interpretation: Growing, not very efficient, and less profitable  
+
+#### Cluster 4:  
+- Has high average Net Profit Margin  
+- Has low average Leverage  
+- Has the least average Beta  
+- Has the least average Rev Growth  
+
+Interpretation: Stable, efficient, and profitable  
+
 ## **Cluster Interpretation for Categorical Variable**
 ```{r}
 
@@ -229,6 +294,54 @@ ggplot(Pharmaceuticals_Interp, aes(x = factor(Cluster), fill = Exchange)) +
 
 ```
 
+# **<span style="color:DarkBlue">Question C:</span>**
+### **Interpretation**
 
+#### Cluster 1:  
+- Has no Sells  
+- Mostly USA  
+- All NYSE  
 
+#### Cluster 2:  
+- Has no Sells  
+- Has least USA  
+- All NYSE  
+
+#### Cluster 3:  
+- Has the highest amount of Moderate Buys  
+- Mostly USA  
+- Has AMEX  
+- Has NASDAQ  
+
+#### Cluster 4:  
+- Has the highest amount of Holds  
+- Has Strong Buys  
+- Mostly USA  
+- All NYSE  
+<br>
+
+#### Overall Interpretation:  
+There is not many strong patterns in the categorical values. 
+Mostly due to them not being used in the formation of the clusters. 
+The Median Recommendation slightly reflects the stability and growth found in the numerical interpretation. 
+Cluster 3 is the only cluster with data outside the NYSE.  
+
+# **<span style="color:DarkBlue">Question D:</span>**
+## **Cluster Names**
+
+#### - Cluster 1:  Strong Earners  
+
+#### - Cluster 2:  Weak Earners  
+
+#### - Cluster 3:  Growing Earners  
+
+#### - Cluster 4:  Stable Earners  
+
+```{r}
+
+Cluster_Names <- c("Strong Earners", "Weak Earners", "Growing Earners", "Stable Earners")
+fviz_cluster(Pharmaceuticals_Clusters, data = Pharmaceuticals_Norm) +
+  scale_fill_discrete(name = "Cluster Names", labels = Cluster_Names)
+  
+```
 
