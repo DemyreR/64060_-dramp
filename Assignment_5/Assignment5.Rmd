@@ -12,6 +12,7 @@ library(stats)
 library(dplyr)
 library(caret)
 library(tidyverse)
+library(factoextra)
 
 ```
 <br>
@@ -72,3 +73,48 @@ head(Cereals_Norm)
 
 ```
 <br>
+
+## **Agnes Linkage Methods**
+```{r}
+
+hc_single <- agnes(Cereals_Norm, method = "single")
+hc_complete <- agnes(Cereals_Norm, method = "complete")
+hc_average <- agnes(Cereals_Norm, method = "average")
+hc_ward <- agnes(Cereals_Norm, method = "ward")
+
+print(hc_single$ac)
+print(hc_complete$ac) 
+print(hc_average$ac)
+print(hc_ward$ac) # best linkage
+
+```
+<br>
+
+## **Agnes Dendrogram**
+```{r}
+
+pltree(hc_ward, cex = 0.6, hang = -1, main = "Dendrogram of Agnes")
+
+```
+<br>
+
+## **Choosing Number of Clusters**
+```{r}
+
+fviz_nbclust(Cereals_Norm, hcut, method = "wss") +
+  geom_hline(yintercept = 1194, linetype = 2, color = "royalblue", size = 0.5)
+
+fviz_nbclust(Cereals_Norm, hcut, method = "silhouette")
+
+```
+<br>
+
+## **3 Clusters Dendrogram**
+```{r}
+
+pltree(hc_ward, cex = 0.6, hang = -1, main = "Dendrogram of Agnes")
+rect.hclust(as.hclust(hc_ward), k = 3, border = 2:5)
+
+```
+<br>
+
