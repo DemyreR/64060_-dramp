@@ -1,0 +1,24 @@
+---
+title: "Assignment5"
+output: html_document
+---
+
+## **Load Libraries**
+```{r}
+
+library(readr)
+library(cluster)
+library(stats)
+
+```
+<br>
+
+## **Import Data**
+```{r}
+
+Cereals <- read_csv("Cereals.csv")
+
+```
+*Data sourced from Canvas.*
+
+<br>
