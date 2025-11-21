@@ -357,7 +357,29 @@ display: none;
 <h2><strong>Load Libraries</strong></h2>
 <pre class="r"><code>library(readr)
 library(cluster)
-library(stats)</code></pre>
+library(stats)
+library(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>library(caret)</code></pre>
+<pre><code>## Loading required package: ggplot2</code></pre>
+<pre><code>## Loading required package: lattice</code></pre>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ forcats   1.0.1     ✔ stringr   1.5.1
+## ✔ lubridate 1.9.4     ✔ tibble    3.3.0
+## ✔ purrr     1.1.0     ✔ tidyr     1.3.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ✖ purrr::lift()   masks caret::lift()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 <p><br></p>
 </div>
 <div id="import-data" class="section level2">
@@ -372,6 +394,154 @@ library(stats)</code></pre>
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p><em>Data sourced from Canvas.</em></p>
+<p><br></p>
+</div>
+<div id="turn-names-into-row-names" class="section level2">
+<h2><strong>Turn Names Into Row Names</strong></h2>
+<pre class="r"><code>head(Cereals)</code></pre>
+<pre><code>## # A tibble: 6 × 16
+##   name       mfr   type  calories protein   fat sodium fiber carbo sugars potass
+##   &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1 100%_Bran  N     C           70       4     1    130  10     5        6    280
+## 2 100%_Natu… Q     C          120       3     5     15   2     8        8    135
+## 3 All-Bran   K     C           70       4     1    260   9     7        5    320
+## 4 All-Bran_… K     C           50       4     0    140  14     8        0    330
+## 5 Almond_De… R     C          110       2     2    200   1    14        8     NA
+## 6 Apple_Cin… G     C          110       2     2    180   1.5  10.5     10     70
+## # ℹ 5 more variables: vitamins &lt;dbl&gt;, shelf &lt;dbl&gt;, weight &lt;dbl&gt;, cups &lt;dbl&gt;,
+## #   rating &lt;dbl&gt;</code></pre>
+<pre class="r"><code>Cereals_df &lt;- as.data.frame(Cereals)
+Cereal_Names &lt;- Cereals_df$name
+rownames(Cereals_df) &lt;- Cereal_Names
+Cereals_df &lt;- Cereals_df[,-1]
+head(Cereals_df)</code></pre>
+<pre><code>##                           mfr type calories protein fat sodium fiber carbo
+## 100%_Bran                   N    C       70       4   1    130  10.0   5.0
+## 100%_Natural_Bran           Q    C      120       3   5     15   2.0   8.0
+## All-Bran                    K    C       70       4   1    260   9.0   7.0
+## All-Bran_with_Extra_Fiber   K    C       50       4   0    140  14.0   8.0
+## Almond_Delight              R    C      110       2   2    200   1.0  14.0
+## Apple_Cinnamon_Cheerios     G    C      110       2   2    180   1.5  10.5
+##                           sugars potass vitamins shelf weight cups   rating
+## 100%_Bran                      6    280       25     3      1 0.33 68.40297
+## 100%_Natural_Bran              8    135        0     3      1 1.00 33.98368
+## All-Bran                       5    320       25     3      1 0.33 59.42551
+## All-Bran_with_Extra_Fiber      0    330       25     3      1 0.50 93.70491
+## Almond_Delight                 8     NA       25     3      1 0.75 34.38484
+## Apple_Cinnamon_Cheerios       10     70       25     1      1 0.75 29.50954</code></pre>
+<p><br></p>
+</div>
+<div id="remove-missing-values" class="section level2">
+<h2><strong>Remove Missing Values</strong></h2>
+<pre class="r"><code>colMeans(is.na(Cereals_df))</code></pre>
+<pre><code>##        mfr       type   calories    protein        fat     sodium      fiber 
+## 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 
+##      carbo     sugars     potass   vitamins      shelf     weight       cups 
+## 0.01298701 0.01298701 0.02597403 0.00000000 0.00000000 0.00000000 0.00000000 
+##     rating 
+## 0.00000000</code></pre>
+<pre class="r"><code>sum(!complete.cases(Cereals_df))</code></pre>
+<pre><code>## [1] 3</code></pre>
+<pre class="r"><code>Cereals_Clean &lt;- Cereals_df[complete.cases(Cereals_df), ]
+colMeans(is.na(Cereals_Clean))</code></pre>
+<pre><code>##      mfr     type calories  protein      fat   sodium    fiber    carbo 
+##        0        0        0        0        0        0        0        0 
+##   sugars   potass vitamins    shelf   weight     cups   rating 
+##        0        0        0        0        0        0        0</code></pre>
+<p><br></p>
+</div>
+<div id="create-dummy-variables" class="section level2">
+<h2><strong>Create Dummy Variables</strong></h2>
+<pre class="r"><code>head(Cereals_Clean)</code></pre>
+<pre><code>##                           mfr type calories protein fat sodium fiber carbo
+## 100%_Bran                   N    C       70       4   1    130  10.0   5.0
+## 100%_Natural_Bran           Q    C      120       3   5     15   2.0   8.0
+## All-Bran                    K    C       70       4   1    260   9.0   7.0
+## All-Bran_with_Extra_Fiber   K    C       50       4   0    140  14.0   8.0
+## Apple_Cinnamon_Cheerios     G    C      110       2   2    180   1.5  10.5
+## Apple_Jacks                 K    C      110       2   0    125   1.0  11.0
+##                           sugars potass vitamins shelf weight cups   rating
+## 100%_Bran                      6    280       25     3      1 0.33 68.40297
+## 100%_Natural_Bran              8    135        0     3      1 1.00 33.98368
+## All-Bran                       5    320       25     3      1 0.33 59.42551
+## All-Bran_with_Extra_Fiber      0    330       25     3      1 0.50 93.70491
+## Apple_Cinnamon_Cheerios       10     70       25     1      1 0.75 29.50954
+## Apple_Jacks                   14     30       25     2      1 1.00 33.17409</code></pre>
+<pre class="r"><code>Dummies &lt;- dummyVars(~ mfr + type, data = Cereals_Clean)
+Dummy_df &lt;- as.data.frame(predict(Dummies, newdata = Cereals_Clean))
+Cereals_Num &lt;- Cereals_Clean[,-c(1,2)]
+Cereals_Num &lt;- cbind(Dummy_df,Cereals_Num)
+head(Cereals_Num)</code></pre>
+<pre><code>##                           mfrA mfrG mfrK mfrN mfrP mfrQ mfrR typeC typeH
+## 100%_Bran                    0    0    0    1    0    0    0     1     0
+## 100%_Natural_Bran            0    0    0    0    0    1    0     1     0
+## All-Bran                     0    0    1    0    0    0    0     1     0
+## All-Bran_with_Extra_Fiber    0    0    1    0    0    0    0     1     0
+## Apple_Cinnamon_Cheerios      0    1    0    0    0    0    0     1     0
+## Apple_Jacks                  0    0    1    0    0    0    0     1     0
+##                           calories protein fat sodium fiber carbo sugars potass
+## 100%_Bran                       70       4   1    130  10.0   5.0      6    280
+## 100%_Natural_Bran              120       3   5     15   2.0   8.0      8    135
+## All-Bran                        70       4   1    260   9.0   7.0      5    320
+## All-Bran_with_Extra_Fiber       50       4   0    140  14.0   8.0      0    330
+## Apple_Cinnamon_Cheerios        110       2   2    180   1.5  10.5     10     70
+## Apple_Jacks                    110       2   0    125   1.0  11.0     14     30
+##                           vitamins shelf weight cups   rating
+## 100%_Bran                       25     3      1 0.33 68.40297
+## 100%_Natural_Bran                0     3      1 1.00 33.98368
+## All-Bran                        25     3      1 0.33 59.42551
+## All-Bran_with_Extra_Fiber       25     3      1 0.50 93.70491
+## Apple_Cinnamon_Cheerios         25     1      1 0.75 29.50954
+## Apple_Jacks                     25     2      1 1.00 33.17409</code></pre>
+<p><br></p>
+</div>
+<div id="normalize-data" class="section level2">
+<h2><strong>Normalize Data</strong></h2>
+<pre class="r"><code>Norm_Model &lt;- preProcess(Cereals_Num, method = c(&quot;center&quot;, &quot;scale&quot;))
+Cereals_Norm &lt;- predict(Norm_Model,Cereals_Num)
+head(Cereals_Norm)</code></pre>
+<pre><code>##                                 mfrA       mfrG       mfrK       mfrN
+## 100%_Bran                 -0.1162476 -0.6460338 -0.6669978  3.6896495
+## 100%_Natural_Bran         -0.1162476 -0.6460338 -0.6669978 -0.2673659
+## All-Bran                  -0.1162476 -0.6460338  1.4789951 -0.2673659
+## All-Bran_with_Extra_Fiber -0.1162476 -0.6460338  1.4789951 -0.2673659
+## Apple_Cinnamon_Cheerios   -0.1162476  1.5269890 -0.6669978 -0.2673659
+## Apple_Jacks               -0.1162476 -0.6460338  1.4789951 -0.2673659
+##                                 mfrP       mfrQ       mfrR     typeC      typeH
+## 100%_Bran                 -0.3695814 -0.3210386 -0.3210386 0.1162476 -0.1162476
+## 100%_Natural_Bran         -0.3695814  3.0727976 -0.3210386 0.1162476 -0.1162476
+## All-Bran                  -0.3695814 -0.3210386 -0.3210386 0.1162476 -0.1162476
+## All-Bran_with_Extra_Fiber -0.3695814 -0.3210386 -0.3210386 0.1162476 -0.1162476
+## Apple_Cinnamon_Cheerios   -0.3695814 -0.3210386 -0.3210386 0.1162476 -0.1162476
+## Apple_Jacks               -0.3695814 -0.3210386 -0.3210386 0.1162476 -0.1162476
+##                             calories    protein        fat     sodium
+## 100%_Bran                 -1.8659155  1.3817478  0.0000000 -0.3910227
+## 100%_Natural_Bran          0.6537514  0.4522084  3.9728810 -1.7804186
+## All-Bran                  -1.8659155  1.3817478  0.0000000  1.1795987
+## All-Bran_with_Extra_Fiber -2.8737823  1.3817478 -0.9932203 -0.2702057
+## Apple_Cinnamon_Cheerios    0.1498180 -0.4773310  0.9932203  0.2130625
+## Apple_Jacks                0.1498180 -0.4773310 -0.9932203 -0.4514312
+##                                 fiber      carbo     sugars     potass
+## 100%_Bran                  3.22866747 -2.5001396 -0.2542051  2.5605229
+## 100%_Natural_Bran         -0.07249167 -1.7292632  0.2046041  0.5147738
+## All-Bran                   2.81602258 -1.9862220 -0.4836096  3.1248675
+## All-Bran_with_Extra_Fiber  4.87924705 -1.7292632 -1.6306324  3.2659536
+## Apple_Cinnamon_Cheerios   -0.27881412 -1.0868662  0.6634132 -0.4022862
+## Apple_Jacks               -0.48513656 -0.9583868  1.5810314 -0.9666308
+##                             vitamins      shelf     weight       cups
+## 100%_Bran                 -0.1818422  0.9419715 -0.2008324 -2.0856582
+## 100%_Natural_Bran         -1.3032024  0.9419715 -0.2008324  0.7567534
+## All-Bran                  -0.1818422  0.9419715 -0.2008324 -2.0856582
+## All-Bran_with_Extra_Fiber -0.1818422  0.9419715 -0.2008324 -1.3644493
+## Apple_Cinnamon_Cheerios   -0.1818422 -1.4616799 -0.2008324 -0.3038480
+## Apple_Jacks               -0.1818422 -0.2598542 -0.2008324  0.7567534
+##                               rating
+## 100%_Bran                  1.8549038
+## 100%_Natural_Bran         -0.5977113
+## All-Bran                   1.2151965
+## All-Bran_with_Extra_Fiber  3.6578436
+## Apple_Cinnamon_Cheerios   -0.9165248
+## Apple_Jacks               -0.6553998</code></pre>
 <p><br></p>
 </div>
 

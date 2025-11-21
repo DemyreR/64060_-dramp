@@ -9,6 +9,9 @@ output: html_document
 library(readr)
 library(cluster)
 library(stats)
+library(dplyr)
+library(caret)
+library(tidyverse)
 
 ```
 <br>
@@ -21,4 +24,51 @@ Cereals <- read_csv("Cereals.csv")
 ```
 *Data sourced from Canvas.*
 
+<br>
+
+## **Turn Names Into Row Names**
+```{r}
+
+head(Cereals)
+Cereals_df <- as.data.frame(Cereals)
+Cereal_Names <- Cereals_df$name
+rownames(Cereals_df) <- Cereal_Names
+Cereals_df <- Cereals_df[,-1]
+head(Cereals_df)
+
+```
+<br>
+
+## **Remove Missing Values**
+```{r}
+
+colMeans(is.na(Cereals_df))
+sum(!complete.cases(Cereals_df))
+Cereals_Clean <- Cereals_df[complete.cases(Cereals_df), ]
+colMeans(is.na(Cereals_Clean))
+
+```
+<br>
+
+## **Create Dummy Variables**
+```{r}
+
+head(Cereals_Clean)
+Dummies <- dummyVars(~ mfr + type, data = Cereals_Clean)
+Dummy_df <- as.data.frame(predict(Dummies, newdata = Cereals_Clean))
+Cereals_Num <- Cereals_Clean[,-c(1,2)]
+Cereals_Num <- cbind(Dummy_df,Cereals_Num)
+head(Cereals_Num)
+
+```
+<br>
+
+## **Normalize Data**
+```{r}
+
+Norm_Model <- preProcess(Cereals_Num, method = c("center", "scale"))
+Cereals_Norm <- predict(Norm_Model,Cereals_Num)
+head(Cereals_Norm)
+
+```
 <br>
