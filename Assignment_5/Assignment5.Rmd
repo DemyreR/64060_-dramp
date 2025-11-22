@@ -104,8 +104,6 @@ pltree(hc_ward, cex = 0.6, hang = -1, main = "Dendrogram of Agnes")
 fviz_nbclust(Cereals_Norm, hcut, method = "wss") +
   geom_hline(yintercept = 1194, linetype = 2, color = "royalblue", size = 0.5)
 
-fviz_nbclust(Cereals_Norm, hcut, method = "silhouette")
-
 ```
 <br>
 
@@ -117,4 +115,53 @@ rect.hclust(as.hclust(hc_ward), k = 3, border = 2:5)
 
 ```
 <br>
+
+## **Stability Check**
+```{r}
+
+set.seed(124) # seed(123) is unbalanced
+Index_Partition <- createDataPartition(1:nrow(Cereals_Norm), p = 0.7, list = F)
+PartA <- Cereals_Norm[Index_Partition,]
+PartB <- Cereals_Norm[-Index_Partition,]
+
+Clusters_Ward <- cutree(as.hclust(hc_ward), k = 3)
+Clusters_B <- Clusters_Ward[-Index_Partition]
+
+hc_A <- agnes(PartA, method = "ward")
+Clusters_A <- cutree(as.hclust(hc_A), k = 3)
+
+
+Centroids <- PartA %>%
+  mutate(Cluster = Clusters_A) %>%
+  group_by(Cluster) %>%
+  summarise(across(everything(), mean))
+Centroids
+
+Centroid_1 <- Centroids[1,-1]
+Centroid_2 <- Centroids[2,-1]
+Centroid_3 <- Centroids[3,-1]
+
+Cent_Dist_1 <- sqrt(rowSums((PartB - as.list(Centroid_1))^2))
+Cent_Dist_2 <- sqrt(rowSums((PartB - as.list(Centroid_2))^2))
+Cent_Dist_3 <- sqrt(rowSums((PartB - as.list(Centroid_3))^2))
+
+Centroid_Distances <- data.frame(
+  Dist1 = Cent_Dist_1,
+  Dist2 = Cent_Dist_2,
+  Dist3 = Cent_Dist_3
+)
+
+Centroid_Distances$Assigned_Cluster <- max.col(-1*Centroid_Distances)
+Centroid_Distances$HC_Cluster <- Clusters_B
+Centroid_Distances
+
+Assigned <- factor(Centroid_Distances$Assigned_Cluster)
+HC <- factor(Centroid_Distances$HC_Cluster)
+cm <- confusionMatrix(Assigned, HC)
+cm$table
+cm$overall[1]
+
+```
+<br>
+
 
