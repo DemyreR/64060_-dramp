@@ -4,7 +4,7 @@ output: html_document
 ---
 
 ## **Load Libraries**
-```{r}
+```{r, message=FALSE}
 
 library(readr)
 library(cluster)
@@ -74,6 +74,7 @@ head(Cereals_Norm)
 ```
 <br>
 
+# **<span style="color:DarkBlue">Question 1:</span>**
 ## **Agnes Linkage Methods**
 ```{r}
 
@@ -89,6 +90,7 @@ max(Methods)
 names(which.max(Methods))
 
 ```
+The best method is "Ward" with the ac value of 0.8853988.
 <br>
 
 ## **Agnes Dendrogram**
@@ -99,6 +101,7 @@ pltree(hc_ward, cex = 0.6, hang = -1, main = "Dendrogram of Agnes")
 ```
 <br>
 
+# **<span style="color:DarkBlue">Question 2:</span>**
 ## **Choosing Number of Clusters**
 ```{r}
 
@@ -106,6 +109,9 @@ fviz_nbclust(Cereals_Norm, hcut, method = "wss") +
   geom_hline(yintercept = 1194, linetype = 2, color = "royalblue", size = 0.5)
 
 ```
+
+After looking at the Dendrogram's height differences and using the Elbow Method
+(WSS), I chose 3 clusters.
 <br>
 
 ## **3 Clusters Dendrogram**
@@ -117,8 +123,9 @@ rect.hclust(as.hclust(hc_ward), k = 3, border = 2:5)
 ```
 <br>
 
+# **<span style="color:DarkBlue">Question 3:</span>**
 ## **Stability Check**
-```{r}
+```{r, warning=FALSE}
 
 set.seed(124) # seed(123) is unbalanced
 Index_Partition <- createDataPartition(1:nrow(Cereals_Norm), p = 0.7, list = F)
@@ -163,8 +170,13 @@ ConfMatrix$table
 ConfMatrix$overall[1]
 
 ```
+After comparing the cluster assignments and the HC data, I found that the 
+assignments are 95% accurate. Meaning the structure of the clusters are
+stable, but while testing different seeds there seems to be an unbalance 
+depending on the partition. Further validation may be recommended.
 <br>
 
+# **<span style="color:DarkBlue">Question 4:</span>**
 ## **Cluster Selection**
 ```{r}
 
@@ -176,4 +188,16 @@ pltree(HC_Healthy_Cluster, cex = 0.6, hang = -1, main = "Dendrogram of Healthy C
 row.names(Healthy_Cluster)
 
 ```
+
+The first cluster from the original clustering is perfect for the set of
+cereals requested by the elementary public schools. This cluster of cereals
+is very healthy and there are enough for there to be a different cereal a
+day (Monday - Friday).
+
+The data should be normalized because features with larger magnitudes (like 
+calories, potass, and sodium) will influence the model more than the other 
+features.
+
+If the data is not normalized you are forced to only use features with
+similar scales or manually use your own weights to fix the scales.
 <br>
