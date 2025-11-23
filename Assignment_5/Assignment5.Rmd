@@ -157,11 +157,22 @@ Centroid_Distances
 
 Assigned <- factor(Centroid_Distances$Assigned_Cluster)
 HC <- factor(Centroid_Distances$HC_Cluster)
-cm <- confusionMatrix(Assigned, HC)
-cm$table
-cm$overall[1]
+ConfMatrix <- confusionMatrix(Assigned, HC)
+ConfMatrix$table
+ConfMatrix$overall[1]
 
 ```
 <br>
 
+## **Cluster Selection**
+```{r}
 
+pltree(hc_ward, cex = 0.6, hang = -1, main = "Dendrogram of Agnes")
+rect.hclust(as.hclust(hc_ward), k = 3, border = c("red","white","white"))
+Healthy_Cluster <- Cereals_Norm[Clusters_Ward == 1, ]
+HC_Healthy_Cluster <- agnes(Healthy_Cluster, method = "ward")
+pltree(HC_Healthy_Cluster, cex = 0.6, hang = -1, main = "Dendrogram of Healthy Cereals")
+row.names(Healthy_Cluster)
+
+```
+<br>
