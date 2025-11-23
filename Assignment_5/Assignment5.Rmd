@@ -82,10 +82,11 @@ hc_complete <- agnes(Cereals_Norm, method = "complete")
 hc_average <- agnes(Cereals_Norm, method = "average")
 hc_ward <- agnes(Cereals_Norm, method = "ward")
 
-print(hc_single$ac)
-print(hc_complete$ac) 
-print(hc_average$ac)
-print(hc_ward$ac) # best linkage
+Methods <- data.frame(Single = hc_single$ac, Complete = hc_complete$ac,
+                      Average = hc_average$ac, Ward = hc_ward$ac)
+Methods
+max(Methods)
+names(which.max(Methods))
 
 ```
 <br>

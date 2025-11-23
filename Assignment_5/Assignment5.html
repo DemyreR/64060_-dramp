@@ -553,14 +553,15 @@ hc_complete &lt;- agnes(Cereals_Norm, method = &quot;complete&quot;)
 hc_average &lt;- agnes(Cereals_Norm, method = &quot;average&quot;)
 hc_ward &lt;- agnes(Cereals_Norm, method = &quot;ward&quot;)
 
-print(hc_single$ac)</code></pre>
-<pre><code>## [1] 0.8543243</code></pre>
-<pre class="r"><code>print(hc_complete$ac) </code></pre>
-<pre><code>## [1] 0.8618592</code></pre>
-<pre class="r"><code>print(hc_average$ac)</code></pre>
-<pre><code>## [1] 0.8518632</code></pre>
-<pre class="r"><code>print(hc_ward$ac) # best linkage</code></pre>
+Methods &lt;- data.frame(Single = hc_single$ac, Complete = hc_complete$ac,
+                      Average = hc_average$ac, Ward = hc_ward$ac)
+Methods</code></pre>
+<pre><code>##      Single  Complete   Average      Ward
+## 1 0.8543243 0.8618592 0.8518632 0.8853988</code></pre>
+<pre class="r"><code>max(Methods)</code></pre>
 <pre><code>## [1] 0.8853988</code></pre>
+<pre class="r"><code>names(which.max(Methods))</code></pre>
+<pre><code>## [1] &quot;Ward&quot;</code></pre>
 <p><br></p>
 </div>
 <div id="agnes-dendrogram" class="section level2">
